@@ -15,7 +15,7 @@
             --negro-azabache: #050505;
             --negro-grafito: #1A1A1A;
             --dorado-brilliante: #ffee00d5;
-            --dorado-suave: #caaf13;
+            --dorado-suave: #ffffff;
             --dorado-destello: #bea619;
             --plata-suave: #e2e2e2;
             --texto-blanco: #ffffff;
@@ -29,6 +29,162 @@
             box-sizing: border-box;
         }
         
+        /* --- CAMBIOS PARA LA HERO SECTION --- */
+
+/* --- CAMBIOS PARA LA HERO SECTION (VERSIÓN PEQUEÑA) --- */
+
+.logo-animado-hero {
+    position: relative;
+    width: 300px;  
+    height: 150px; 
+    margin: 0 auto 20px; /* 'auto' a los lados lo centra horizontalmente */
+    overflow: visible;
+    
+    /* Esto ayuda al centrado vertical si el padre es flex */
+    align-self: center; 
+}
+
+/* --- ESTADO INICIAL (DESARMADO / INVISIBLE) --- */
+.logo-animado-hero img {
+    position: absolute;
+    width: auto; 
+    height: auto;
+    object-fit: contain;
+    
+    /* Aquí la magia: Preparamos la transición suave */
+    transition: all 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    opacity: 0; /* Empiezan invisibles */
+}
+
+/* 1. SUBLI (Estado Desarmado: Fuera a la izquierda) */
+.parte-subli img {
+    /* TUS POSICIONES MANUALES (No borres tus top/left aquí) */
+    /* Ejemplo: bottom: 45px; left: 90px; */
+    
+    transform: translateX(-150px); /* Se va a la izquierda */
+}
+
+/* 2. TONY (Estado Desarmado: Fuera a la derecha) */
+.parte-tony img {
+    /* TUS POSICIONES MANUALES */
+    /* Ejemplo: bottom: 0; left: 10px; */
+    
+    transform: translateX(150px); /* Se va a la derecha */
+}
+
+/* 3. CORONA (Estado Desarmado: Volando arriba) */
+.parte-corona img {
+    /* TUS POSICIONES MANUALES */
+    /* Ejemplo: top: -10px; right: 70px; */
+    
+    transform: translateY(-200px) rotate(-20deg); /* Arriba y chueca */
+}
+
+/* --- ESTADO ACTIVO (CUANDO EL JS DETECTA QUE LO VES) --- */
+
+/* Cuando añadimos la clase .activo, todo vuelve a su lugar (0) */
+.logo-animado-hero.activo .parte-subli img {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.logo-animado-hero.activo .parte-tony img {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* La corona tiene un retraso (delay) para caer al final */
+.logo-animado-hero.activo .parte-corona img {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    transition-delay: 0.5s; /* Espera medio segundo antes de bajar */
+}
+/* --- ESTILOS COMUNES PARA LAS IMÁGENES --- */
+.logo-animado-hero img {
+    position: absolute;
+    /* Quitamos width/height: 100% para que no se deformen */
+    width: auto; 
+    height: auto;
+    object-fit: contain;
+}
+
+/* --- 1. ANIMACIÓN "SUBLI" (Entra por la IZQUIERDA) --- */
+.logo-animado-hero {
+    position: relative;
+    /* Reducimos significativamente el tamaño del contenedor */
+    width: 300px;      /* Ancho fijo más pequeño */
+    height: 150px;     /* Alto fijo más pequeño */
+    margin: 0 auto 20px; /* Centrado y con margen inferior */
+    overflow: visible; /* Para que la sombra de la corona no se corte */
+}
+
+/* --- ESTILOS COMUNES PARA LAS IMÁGENES --- */
+.logo-animado-hero img {
+    position: absolute;
+    /* Quitamos width/height: 100% para que no se deformen */
+    width: auto; 
+    height: auto;
+    object-fit: contain;
+}
+
+/* --- 1. ANIMACIÓN "SUBLI" (Ajustada: más pequeña y sobre "ony") --- */
+.parte-subli img {
+    /* Ajustamos el tamaño y la posición para que quede sobre "ony" */
+    height: 20px;  /* Mucho más pequeña */
+    bottom: 54px;  /* La subimos para que quede encima de Tony */
+    left: 185px;  /* La movemos a la derecha para que quede al lado de la T */
+    
+    /* Animación de entrada */
+    transform: translateX(-100px); 
+    animation: entrarIzquierda 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
+
+/* --- 2. ANIMACIÓN "TONY" (Ajustada ligeramente) --- */
+.parte-tony img {
+    /* Ajustamos la posición base */
+    height: 80px; /* Tamaño original */
+    bottom: 0;
+    left: 110px; /* Un poco más a la izquierda para dar espacio */
+    
+    /* Animación de entrada */
+    transform: translateX(80x);
+    animation: entrarDerecha 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
+
+/* --- 3. ANIMACIÓN CORONA (Ajustada sobre la "T") --- */
+.parte-corona img {
+    /* Ajustamos la posición final sobre la "T" */
+    top: 26px;   /* Un poco más arriba para que caiga bien */
+    right: 135px;  /* Ajustado para centrarla sobre la T */
+    height: 50px; /* Tamaño más pequeño */
+    
+    /* Empieza arriba */
+    transform: translateY(-150px);
+    opacity: 0;
+    /* Empieza 0.8s después (espera a que llegue el texto) */
+    animation: caerCorona 1s ease-out 0.8s forwards; 
+}
+
+/* --- DEFINICIÓN DE LOS MOVIMIENTOS (KEYFRAMES) --- */
+/* (Estos no cambian, pero los incluyo para que esté todo junto) */
+@keyframes entrarIzquierda {
+    0% { transform: translateX(-100px); opacity: 0; }
+    80% { transform: translateX(10px); }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes entrarDerecha {
+    0% { transform: translateX(100px); opacity: 0; }
+    80% { transform: translateX(-10px); }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes caerCorona {
+    0% { transform: translateY(-150px); opacity: 0; }
+    60% { transform: translateY(0); opacity: 1; }
+    75% { transform: translateY(-15px); }
+    100% { transform: translateY(0); opacity: 1; }
+}
         /* 1. PONER LA IMAGEN DE FONDO EN EL CUERPO */
 body {
     background-color: var(--negro-charcoal);
@@ -423,61 +579,135 @@ header.scrolled {
         }
         .galeria-item:hover .galeria-overlay { transform: translateY(0); }
         
-        /* Footer */
-        footer { 
-            padding: 80px 0 100px; 
-            border-top: 1px solid rgba(182, 146, 146, 0.1); 
-            position: relative; /* Para contener el botón de WhatsApp */
-        }
-        .footer-contenido { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; margin-bottom: 50px; }
-        .footer-columna h3 { font-size: 1.5rem; margin-bottom: 30px; color: var(--dorado-brilliante); font-family: 'Playfair Display', serif; }
-        .info-contacto li { padding: 12px 0; display: flex; align-items: center; gap: 18px; color: var(--texto-plata); }
-        .redes-sociales { display: flex; gap: 18px; margin-top: 25px; }
-        .red-social { width: 45px; height: 45px; border-radius: 50%; background-color: var(--accento-moderno); display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; }
-        .red-social:hover { background-color: var(--dorado-brilliante); color: var(--negro-azabache); transform: translateY(-5px); }
-        
-        /* Powered by styling */
-        .powered {
-            text-align: left;
-            font-size: 0.85rem;
-            color: var(--texto-plata);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        /* Botón flotante WhatsApp - Posicionado dentro del footer */
-        .whatsapp-float { 
-            position: absolute; 
-            bottom: 40px; 
-            right: 40px; 
-            z-index: 10; 
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            background: transparent; /* Sin fondo negro */
-        }
-        
-        .btn-whatsapp { 
-            background-color: #25D366; 
-            color: white; 
-            border: none; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            padding: 18px 35px; 
-            font-weight: 600; 
-            border-radius: 50px; 
-            box-shadow: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .btn-whatsapp:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
-        }
+        /* --- FOOTER (CORREGIDO Y ELEGANTE) --- */
+footer { 
+    padding: 60px 0 40px; /* Espacio arriba y abajo equilibrado */
+    border-top: 1px solid rgba(212, 175, 55, 0.2); /* Línea dorada sutil arriba */
+    background-color: rgba(5, 5, 5, 0.95); /* Fondo casi negro */
+    font-size: 15px; /* IMPORTANTE: Reseteamos el tamaño base aquí */
+}
+
+/* Contenedor de las columnas */
+.footer-contenido { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 40px; 
+    justify-content: space-between; /* Separa Contacto a la izq y Redes a la der */
+    margin-bottom: 30px; 
+}
+
+/* Títulos "Contacto" y "Redes" */
+.footer-columna h3 { 
+    font-size: 1.4rem; /* Tamaño moderado (aprox 22px) */
+    margin-bottom: 20px; 
+    color: var(--dorado-brilliante); 
+    font-family: 'Playfair Display', serif;
+    position: relative;
+    display: inline-block;
+}
+
+/* Pequeña línea debajo del título */
+.footer-columna h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--dorado-brilliante);
+}
+
+/* --- LISTA DE CONTACTO (EL PROBLEMA PRINCIPAL) --- */
+.info-contacto {
+    list-style: none; /* Quitamos puntos */
+}
+
+.info-contacto li { 
+    padding: 8px 0; /* Espacio vertical reducido */
+    display: flex; 
+    align-items: flex-start; /* Alineamos arriba por si el texto es largo */
+    gap: 15px; 
+    color: var(--texto-plata);
+    font-size: 1rem; /* Texto de tamaño normal (16px) */
+    line-height: 1.5; /* Mejor lectura */
+}
+
+/* Íconos de dirección, tel, reloj */
+.info-contacto li i {
+    color: var(--dorado-brilliante);
+    font-size: 1.1rem; /* Ícono pequeño */
+    margin-top: 3px; /* Pequeño ajuste para alinear con la primera línea de texto */
+    min-width: 20px; /* Para que todos los textos empiecen alineados */
+}
+
+/* Botones de editar en el footer (más discretos) */
+.info-contacto .edit-btn {
+    position: relative;
+    top: 0; right: 0;
+    width: 25px; height: 25px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+    opacity: 0.5; /* Semitransparentes hasta que pasas el mouse */
+}
+.info-contacto .edit-btn:hover { opacity: 1; }
+
+
+/* --- REDES SOCIALES --- */
+.redes-sociales { 
+    display: flex; 
+    gap: 15px; 
+    margin-top: 10px; 
+}
+
+.red-social { 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    background-color: rgba(255,255,255,0.1); 
+    color: white;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: all 0.3s ease; 
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.red-social:hover { 
+    background-color: var(--dorado-brilliante); 
+    color: black; 
+    transform: translateY(-3px); 
+}
+
+/* --- BOTÓN WHATSAPP (Ajustado también) --- */
+.whatsapp-float { 
+    position: fixed; /* Ojo: Si lo quieres flotante en toda la web usa fixed, si solo en footer usa absolute */
+    bottom: 30px; 
+    right: 30px; 
+    z-index: 100; 
+}
+
+.btn-whatsapp { 
+    background-color: #25D366; 
+    color: white; 
+    border: none; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 12px 25px; /* Tamaño más controlado */
+    font-size: 1rem;    /* Texto normal */
+    font-weight: 600; 
+    border-radius: 50px; 
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    transform: scale(1.05);
+    background-color: #20b857;
+}
 
         /* Edición */
         .edit-btn {
@@ -627,14 +857,9 @@ header.scrolled {
         <div class="container header-container">
             <div class="logo-container">
                 <div class="logo-imagen editable" id="logoContainer">
-                    <img src="imagenes/sublitony-logo.png.png" alt="SubliTony Logo" id="logoImagen" style="width: 100%; height: 100%; object-fit: contain;">
+                    <img src="imagenes/sublitonylogo.png" alt="SubliTony Logo" id="logoImagen" style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
-                <div class="logo-texto">
-                    <div class="logo-titulo">Subli<span style="color: var(--dorado-brilliante);">Tony</span></div>
-                    <div class="logo-slogan editable" id="slogan">El Rey de la impresión. 
-                </div>
-            </div>
-            
+                
             <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
             
             <nav id="mainNav">
@@ -651,9 +876,28 @@ header.scrolled {
 
     <section class="hero" id="inicio">
         <div class="container hero-contenido">
-            <h1 class="hero-titulo editable" id="heroTitulo">
-                Subli<span style="color: var(--dorado-brilliante);">Tony</span>
-            </h1>
+            
+            <div class="logo-animado-hero">
+                <div class="parte-subli">
+                    <img src="imagenes/subli.png" alt="Subli">
+                </div>
+                <div class="parte-tony">
+                    <img src="imagenes/tony.png" alt="Tony">
+                </div>
+                <div class="parte-corona">
+                    <img src="imagenes/corona.png" alt="Corona">
+                </div>
+            </div>
+            
+            <h2 class="hero-subtitulo editable" id="heroSubtitulo">Calidad en cada detalle</h2>
+            <p class="hero-descripcion editable" id="heroDescripcion">Especialistas en impresión y personalización para todo tipo de negocio.</p>
+            
+            <div class="hero-botones">
+                <a href="#servicios" class="btn">Ver Servicios</a>
+            </div>
+        </div>
+    </section>
+            
             <h2 class="hero-subtitulo editable" id="heroSubtitulo">Calidad en cada detalle 
             <p class="hero-descripcion editable" id="heroDescripcion">Especialistas en impresión y personalización para todo tipo de negocio. 
             <div class="hero-botones">
@@ -747,7 +991,7 @@ header.scrolled {
                 
                 <div style="flex: 1; min-width: 300px;">
                     <h3 class="editable" id="sobreTitulo" style="color:var(--dorado-suave); font-size: 2.2rem; margin-bottom: 20px; line-height: 1.2;">
-                        SubliTony: <span style="color:white;">Innovación que deja huella</span>
+                        SubliTony: <span style="color:oklch(80.808% 0.1655 104.939);">Innovación que deja huella</span>
                         
                     </h3>
                     
@@ -815,9 +1059,9 @@ header.scrolled {
                 <div class="footer-columna">
                     <h3>Contacto</h3>
                     <ul class="info-contacto">
-                        <li><i class="fas fa-map-marker-alt"></i> <span id="footerDir"> Av. José María Velasco 34-505, Temascalcingo, Edo.Méx. </span> <i class="fas fa-edit edit-btn" data-edit="footerDir"></i></li>
-                        <li><i class="fas fa-phone"></i> <span id="footerTel">712 107 5494</span> <i class="fas fa-edit edit-btn" data-edit="footerTel"></i></li>
-                        <li><i class="fas fa-clock"></i> <span id="footerHorario">Lunes a Viernes: 9 AM a 8 PM<br>Sábados: 12 PM a 2 PM</span> <i class="fas fa-edit edit-btn" data-edit="footerHorario"></i></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span id="footerDir"> Av. José María Velasco 34-505, Temascalcingo, Edo.Méx. </span> </li>
+                        <li><i class="fas fa-phone"></i> <span id="footerTel">712 107 5494</span> </li>
+                        <li><i class="fas fa-clock"></i> <span id="footerHorario">Lunes a Viernes: 9 AM a 8 PM<br>Sábados: 12 PM a 2 PM</span> </li>
                     </ul>
                 </div>
                 <div class="footer-columna">
@@ -879,15 +1123,20 @@ header.scrolled {
 
     // Datos por defecto - Imágenes de la carpeta publicidad
     const datosPorDefecto = [
-        { id: 1, titulo: "", descripcion: "", url: "./publicidad/foto1.jfif" },
+        { id: 1, titulo: "", descripcion: "", url: "./publicidad/foto1.jpg" },
         { id: 2, titulo: "", descripcion: "", url: "./publicidad/foto2.jfif" },
-        { id: 3, titulo: "", descripcion: "", url: "./publicidad/foto3.jfif" },
+        { id: 3, titulo: "", descripcion: "", url: "./publicidad/foto3.jpg" },
         { id: 4, titulo: "", descripcion: "", url: "./publicidad/foto4.jpg" },
         { id: 5, titulo: "", descripcion: "", url: "./publicidad/foto5.jpg" },
-        { id: 6, titulo: "", descripcion: "", url: "./publicidad/foto6.jpg" },
+        { id: 6, titulo: "", descripcion: "", url: "./publicidad/foto6.jpeg" },
         { id: 7, titulo: "", descripcion: "", url: "./publicidad/foto7.jpg" },
         { id: 8, titulo: "", descripcion: "", url: "./publicidad/foto8.jpg" },
-        { id: 9, titulo: "", descripcion: "", url: "./publicidad/foto9.jpeg" }
+        { id: 8, titulo: "", descripcion: "", url: "./publicidad/foto9.jpg" },
+        { id: 8, titulo: "", descripcion: "", url: "./publicidad/foto10.jpg" },
+        { id: 8, titulo: "", descripcion: "", url: "./publicidad/foto11.jpg" },
+        { id: 8, titulo: "", descripcion: "", url: "./publicidad/foto12.jpg" },
+        { id: 8, titulo: "", descripcion: "", url: "./publicidad/foto13.jpg" },
+        { id: 9, titulo: "", descripcion: "", url: "./publicidad/foto14.jpg" }
     ];
 
     let imagenesGaleria = [...datosPorDefecto];
@@ -924,9 +1173,6 @@ header.scrolled {
             slide.className = 'carousel-slide';
             slide.innerHTML = `
                 <img src="${imagen.url}" alt="Publicidad">
-                <button class="edit-btn btn-borrar" data-index="${index}" style="background:rgba(220,53,69,0.8); opacity:1; top:10px; right:10px;">
-                    <i class="fas fa-trash"></i>
-                </button>
             `;
             fragmento.appendChild(slide);
         });
@@ -942,24 +1188,35 @@ header.scrolled {
         track.style.transform = `translateX(-${indiceActual * anchoSlide}px)`;
     }
 
+    // --- BOTÓN SIGUIENTE (LÓGICA CORREGIDA) ---
     document.getElementById('nextBtn').addEventListener('click', () => {
-        const anchoContenedor = document.querySelector('.carousel-contenedor').offsetWidth;
-        const slidesVisibles = Math.floor(anchoContenedor / anchoSlide);
+        // Si el ancho de la ventana es mayor a 768px (PC/Tablet), asumimos que se ven 3 fotos.
+        // Si es menor (Celular), se ve 1 sola.
+        const slidesVisibles = window.innerWidth > 768 ? 3 : 1;
         
-        if (indiceActual < imagenesGaleria.length - slidesVisibles) {
+        // El límite es el total de fotos MENOS las que ya se están viendo en pantalla
+        const maximoIndices = imagenesGaleria.length - slidesVisibles;
+        
+        if (indiceActual < maximoIndices) {
             indiceActual++;
-            moverCarrusel();
         } else {
-            indiceActual = 0; // Volver al inicio
-            moverCarrusel();
+            indiceActual = 0; // Loop infinito: Volver al principio
         }
+        moverCarrusel();
     });
 
+    // --- BOTÓN ANTERIOR (LÓGICA CORREGIDA) ---
     document.getElementById('prevBtn').addEventListener('click', () => {
+        const slidesVisibles = window.innerWidth > 768 ? 3 : 1;
+        const maximoIndices = imagenesGaleria.length - slidesVisibles;
+
         if (indiceActual > 0) {
             indiceActual--;
-            moverCarrusel();
+        } else {
+            // Loop infinito: Si das atrás en la primera, te lleva a la última
+            indiceActual = maximoIndices; 
         }
+        moverCarrusel();
     });
 
     // --- EVENTOS DE BORRADO Y EDICIÓN ---
@@ -1067,37 +1324,64 @@ header.scrolled {
     whatsappLink.style.transition = 'all 0.3s ease';
     whatsappFloat.style.bottom = `${baseBottomPosition}px`;
     
-    // --- Reveal interaction for service cards (drag to reveal image) ---
+    // --- EFECTO REVEAL INTELIGENTE (Escritorio + Móvil) ---
     (function(){
         const cards = document.querySelectorAll('.servicio-card');
         if(!cards.length) return;
 
         cards.forEach(card => {
             const reveal = card.querySelector('.reveal-img');
-            if(!reveal) return; // only attach to cards that have a reveal image
+            if(!reveal) return;
 
-            function setClip(x, y, r){
-                reveal.style.clipPath = `circle(${r}px at ${x}px ${y}px)`;
-                reveal.style.opacity = r > 0 ? '1' : '0';
-            }
-
+            // 1. Lógica para ESCRITORIO (Mouse)
             card.addEventListener('mousemove', (e) => {
+                // Si es pantalla táctil, ignoramos el mouse para evitar conflictos
+                if(window.matchMedia("(pointer: coarse)").matches) return;
+
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
+                
                 if(!card.classList.contains('revealed')) card.classList.add('revealed');
-                // radius scales with card size (min 80, max 160)
-                setClip(x, y, Math.max(80, Math.min(160, Math.hypot(rect.width, rect.height) * 0.12)));
+                
+                // Calculamos el radio de la linterna
+                const radius = Math.max(80, Math.min(160, Math.hypot(rect.width, rect.height) * 0.12));
+                
+                reveal.style.clipPath = `circle(${radius}px at ${x}px ${y}px)`;
+                reveal.style.opacity = '1';
             });
 
-            card.addEventListener('mouseleave', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) || rect.width/2;
-                const y = (e.clientY - rect.top) || rect.height/2;
-                setClip(x, y, 0);
-                if(card.classList.contains('revealed')) card.classList.remove('revealed');
+            card.addEventListener('mouseleave', () => {
+                if(window.matchMedia("(pointer: coarse)").matches) return;
+                
+                reveal.style.clipPath = `circle(0 at 50% 50%)`;
+                reveal.style.opacity = '0';
+                card.classList.remove('revealed');
+            });
+            
+            // 2. Lógica para MÓVIL (Toque y Scroll)
+            card.addEventListener('click', (e) => {
+                // Solo ejecutar si es pantalla pequeña (menor a 1024px)
+                if(window.innerWidth <= 1024) {
+                    // Si ya estaba activa, la desactivamos
+                    if(card.classList.contains('mobile-active')) {
+                        card.classList.remove('mobile-active');
+                    } else {
+                        // Si no, cerramos las otras y abrimos esta
+                        cards.forEach(c => c.classList.remove('mobile-active'));
+                        card.classList.add('mobile-active');
+                    }
+                }
             });
         });
+
+        // 3. Reset al hacer Scroll (Para que se cierren al bajar)
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth <= 1024) {
+                cards.forEach(c => c.classList.remove('mobile-active'));
+            }
+        }, { passive: true });
+
     })();
 
     document.getElementById('menuToggle').addEventListener('click', () => document.getElementById('mainNav').classList.toggle('active'));
@@ -1123,6 +1407,37 @@ header.scrolled {
     cargarTodo();
     renderizarGaleria();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Buscamos el contenedor del logo
+    const logoHero = document.querySelector('.logo-animado-hero');
+    const seccionHero = document.querySelector('.hero');
+
+    // 2. Configuramos el "Observador"
+    const observerOptions = {
+        root: null,   // Observa en base a la ventana del navegador
+        threshold: 0.5 // Se activa cuando el 50% de la hero section es visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // SI VEMOS LA HERO: Agregamos la clase para armar el logo
+                logoHero.classList.add('activo');
+            } else {
+                // SI NO VEMOS LA HERO: Quitamos la clase para desarmarlo
+                logoHero.classList.remove('activo');
+            }
+        });
+    }, observerOptions);
+
+    // 3. Empezamos a observar
+    if (seccionHero) {
+        observer.observe(seccionHero);
+    }
+});
+
     </script>
     
     <!-- Powered by SODA - Sección final con parallax -->
